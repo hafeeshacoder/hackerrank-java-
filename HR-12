@@ -1,0 +1,66 @@
+import java.util.*;
+class Node{
+    int taskId;
+    Node next;
+    Node(int taskId)
+    {
+        this.taskId=taskId;
+        this.next=null;
+    }
+}
+public class list{
+    public static Node remove(Node head,int p ,int n){
+        Node temp=head;
+        //check wheather position and n value is same
+        if(n==p){
+        return head.next;
+    }
+    // find the position to be removed
+    int rIndex= n - p;
+    for(int i=0;i<rIndex-1;i++){
+        temp=temp.next;
+    }
+    temp.next=temp.next.next;
+    return head;
+    }//end of removal process
+    public static void print(Node head){
+        Node temp=head;
+        while(temp!=null){
+            System.out.print(temp.taskId+" ");
+            temp=temp.next;
+            
+        }
+    }
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+        //get the number of nodes 
+        int N=sc.nextInt();
+        Node head=null,tail=null;
+        for(int i =0;i<N;i++)
+        {
+            int taskId=sc.nextInt();
+            Node newNode=new Node(taskId);
+            //check head is null 
+            if(head == null){
+                head=newNode;
+                tail=newNode;
+            }
+            else{
+                tail.next=newNode;
+                tail=newNode;
+            }
+        }//end of for loop
+        //get the position to be removed
+        int position=sc.nextInt();
+        head=remove(head,position,N);
+        print(head);
+    }
+        }
+
+      
+        
+        
+        
+        
+        
