@@ -1,0 +1,55 @@
+import java.util.*;
+class songNode{
+    String songName;
+    songNode next;
+    songNode(String songName){
+        this.songName=songName;
+        this.next=null;
+    }
+}
+public class PlayList{
+    public static songNode reverse(songNode head)// reverese the playlist
+    {
+      songNode current=head;//stores current node
+      songNode prev=null;//previous node
+      songNode next=null;
+      
+      while(current!=null)// s1 s2 s3 s4 s5
+      {
+          next= current.next;//s2
+          current.next=prev;//null
+          prev=current;//s1
+          current=next;//s2
+      }
+        return prev;
+    }
+        
+    
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        PlayList pl = new PlayList();
+        //number of nodes 
+        int N=Integer.parseInt(sc.nextLine());
+        songNode head=null,tail=null;
+        for(int i=0;i<N;i++){
+            String songName=sc.nextLine();
+            songNode newNode = new songNode(songName);
+            if(head==null){
+                head=newNode;
+                tail=newNode;
+            }
+            else{
+                tail.next=newNode;
+                tail=newNode;
+            }
+            
+         }
+        head = reverse(head);//call thre reveverse
+        songNode temp=head;
+        while(temp!=null)// to display 
+        {
+            System.out.print(temp.songName+" ");
+            temp=temp.next;
+        }
+    }
+}
