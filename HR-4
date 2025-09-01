@@ -1,0 +1,76 @@
+import java.util.*;
+
+class deleteNode {
+    int deleteId;
+    deleteNode next;
+
+    public deleteNode(int deleteId) {
+        this.deleteId = deleteId;
+        this.next = null;
+    }
+}
+
+public class HR4 {
+    deleteNode head = null;
+
+    public void insertAtEnd(int deleteId) {
+        deleteNode newNode = new deleteNode(deleteId);
+
+        if (head == null) {
+            head = newNode;
+        } else {
+            deleteNode temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+    }
+
+    public void deleteAtPosition(int position) {
+        if (position < 1 || head == null) {
+            System.out.println("List is empty");
+            return; // do nothing
+        }
+
+        if (position == 1) {
+            head = head.next; // delete first node
+            return;
+        }
+
+        deleteNode temp = head;
+        for (int i = 1; i < position - 1 && temp != null; i++) {
+            temp = temp.next;
+        }
+
+        if (temp == null || temp.next == null) {
+            return; // invalid position, do nothing
+        }
+
+        temp.next = temp.next.next; // delete the node at given position
+    }
+
+    public void display() {
+        deleteNode temp = head;
+        while (temp != null) {
+            System.out.print(temp.deleteId + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        HR4 p = new HR4();
+
+        int n = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            int taskId = sc.nextInt();
+            p.insertAtEnd(taskId);
+        }
+
+        int position = sc.nextInt();
+        p.deleteAtPosition(position);
+        p.display();
+    }
+}
