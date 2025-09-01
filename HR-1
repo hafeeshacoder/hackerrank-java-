@@ -1,0 +1,58 @@
+import java.util.*;
+
+class ProductNode {
+    int prodId;
+    ProductNode next;
+
+    // constructor
+    public ProductNode(int prodId) {
+        this.prodId = prodId;
+        this.next = null;
+    }
+}
+
+public class Solution {
+    ProductNode head;
+
+    // Insert at end
+    public void insertAtEnd(int prodId) {
+        ProductNode newNode = new ProductNode(prodId);
+        if (head == null) {
+            head = newNode;
+        } else {
+            ProductNode temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+    }
+
+    // Display list
+    public void display() {
+        if (head == null) {
+            System.out.println();
+            return;
+        }
+        ProductNode temp = head;
+        while (temp != null) {
+            System.out.print(temp.prodId + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Solution p = new Solution();
+
+        int n = sc.nextInt();  // number of nodes
+        for (int i = 0; i < n; i++) {
+            int taskId = sc.nextInt();
+            p.insertAtEnd(taskId);
+        }
+
+        p.display();
+    }
+}
