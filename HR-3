@@ -1,0 +1,81 @@
+import java.util.*;
+
+class classNode {
+    int classId;
+    classNode next;
+
+    public classNode(int classId) {
+        this.classId = classId;
+        this.next = null;
+    }
+}
+
+public class HR3 {
+    classNode head = null;
+
+    public void insertAtEnd(int classId) {
+        classNode newNode = new classNode(classId);
+        if (head == null) {
+            head = newNode;
+        } else {
+            classNode temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+    }
+
+   
+    void insertAtPosition(int position, int value) {
+        classNode newNode = new classNode(value);
+
+        if (position == 1) {  
+            newNode.next = head;
+            head = newNode;
+            return;
+        }
+
+        classNode temp = head;
+        int count = 1;
+
+        
+        while (temp != null && count < position - 1) {
+            temp = temp.next;
+            count++;
+        }
+
+        if (temp == null) {
+            System.out.println("Invalid position");
+            return;
+        }
+
+        newNode.next = temp.next;
+        temp.next = newNode;
+    }
+
+    public void display() {
+        classNode temp = head;
+        while (temp != null) {
+            System.out.print(temp.classId + " ");
+            temp = temp.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        HR3 p = new HR3();
+
+        int n = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            int taskId = sc.nextInt();
+            p.insertAtEnd(taskId);
+        }
+
+        int position = sc.nextInt();
+        int value = sc.nextInt();
+
+        p.insertAtPosition(position, value);
+        p.display();
+    }
+}
