@@ -1,0 +1,82 @@
+import java.util.*;
+
+class Node {
+    int bookId;
+    Node prev;
+    Node next;
+
+    public Node(int bookId) {
+        this.bookId = bookId;
+        this.prev = null;
+        this.next = null;
+    }
+}
+
+public class LibraryCatalog {
+    Node head;
+
+    // Insert book at the end
+    public void insertAtEnd(int bookId) {
+        Node newNode = new Node(bookId);
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+        Node temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        temp.next = newNode;
+        newNode.prev = temp;
+    }
+
+    // Delete last book
+    public void deleteLast() {
+        if (head == null) {
+            return;
+        }
+        if (head.next == null) {
+            head = null;
+            return;
+        }
+        Node temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        temp.prev.next = null; // unlink last node
+    }
+
+    // Print catalog
+    public void printCatalog() {
+        if (head == null) {
+            System.out.println("List is empty");
+            return;
+        }
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.bookId);
+            if (temp.next != null) System.out.print(" ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        LibraryCatalog catalog = new LibraryCatalog();
+
+        int N = sc.nextInt();
+        for (int i = 0; i < N; i++) {
+            int bookId = sc.nextInt();
+            catalog.insertAtEnd(bookId);
+        }
+
+        
+        catalog.deleteLast();
+
+        // print result
+        catalog.printCatalog();
+
+        sc.close();
+    }
+}
