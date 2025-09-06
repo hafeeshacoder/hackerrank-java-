@@ -1,0 +1,102 @@
+import java.util.*;
+
+class Node {
+    int pId;
+    Node next;
+
+    Node(int pId) {
+        this.pId = pId;
+        this.next = null;
+    }
+}
+
+public class Lists {
+    static int carry = 0;
+
+    // Create node at end of linked list
+    static Node createNode(Node head, int prodId) {
+        Node newNode = new Node(prodId);
+        if (head == null) {
+            head = newNode;
+            return head;
+        }
+        Node temp = head;
+        while (temp.next != null) {
+            temp = temp.next; // move to next node
+        }
+        temp.next = newNode;
+        return head;
+    }
+
+    // Pad zeros in front of the smaller list
+    static Node pad(Node head, int diff) {
+        for (int i = 0; i < diff; i++) {
+            Node n = new Node(0);
+            n.next = head;
+            head = n;
+        }
+        return head;
+    }
+
+    // Recursive addition of two lists
+    static Node add(Node p1, Node p2) {
+        if (p1 == null && p2 == null) {
+            return null;
+        }
+        Node next = add(p1.next, p2.next); // move to last digit
+        int sum = p1.pId + p2.pId + carry;
+        Node current = new Node(sum % 10); // store last digit
+        current.next = next; // link backwards
+        carry = sum / 10; // update carry
+        return current;
+    }
+
+    // Add two lists with different lengths
+    static Node addNode(Node p1, Node p2, int len1, int len2) {
+        if (len1 < len2) {
+            p1 = pad(p1, len2 - len1);
+        } else if (len2 < len1) {
+            p2 = pad(p2, len1 - len2);
+        }
+        Node result = add(p1, p2); // method call
+        if (carry > 0) {
+            Node c = new Node(carry);
+            c.next = result;
+            return c;
+        }
+        return result;
+    }
+
+    // Print linked list
+    static void print(Node result) {
+        Node temp = result;
+        while (temp != null) {
+            System.out.print(temp.pId + " ");
+            temp = temp.next;
+        }
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Node p1 = null, p2 = null;
+
+        // First number
+        int N1 = sc.nextInt();
+        for (int i = 0; i < N1; i++) {
+            int prod1 = sc.nextInt();
+            p1 = createNode(p1, prod1);
+        }
+
+        // Second number
+        int N2 = sc.nextInt();
+        for (int i = 0; i < N2; i++) {
+            int prod2 = sc.nextInt();
+            p2 = createNode(p2, prod2);
+        }
+
+        Node result = addNode(p1, p2, N1, N2);
+        print(result);
+    }
+}
