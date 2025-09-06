@@ -1,0 +1,44 @@
+import java.util.Scanner;
+
+public class IntersectionOfLinkedLists {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Read first list
+        int n1 = sc.nextInt();
+        int[] list1 = new int[n1];
+        for (int i = 0; i < n1; i++) {
+            list1[i] = sc.nextInt();
+        }
+
+        // Read second list
+        int n2 = sc.nextInt();
+        int[] list2 = new int[n2];
+        for (int i = 0; i < n2; i++) {
+            list2[i] = sc.nextInt();
+        }
+
+        // Use two pointers to find intersection
+        int i = 0, j = 0;
+        boolean found = false; // flag to track intersection
+
+        while (i < n1 && j < n2) {
+            if (list1[i] == list2[j]) {
+                System.out.print(list1[i] + " ");
+                found = true;
+                i++;
+                j++;
+            } else if (list1[i] < list2[j]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No Intersection");
+        }
+
+        sc.close();
+    }
+}
