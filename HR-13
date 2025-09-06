@@ -1,0 +1,63 @@
+import java.util.*;
+class Node{
+    int taskId;
+    Node next;
+    Node(int taskId)
+    {
+        this.taskId=taskId;
+        this.next=null;
+    }
+}
+public class List{
+    public static Node swapPairs(Node head){
+        Node temp=new Node(0);//temporary node
+        temp.next=head;//temporary node as first node 
+        //temp->1->2->3->4
+        Node prev=temp;
+        //swapping process
+        while(prev.next!=null&& prev.next.next!=null)
+        {
+            Node first=prev.next;
+            Node second=prev.next.next;
+            //swap
+            prev.next= second;//2
+            first.next= second.next;//3
+            second.next=first;//1
+            
+            prev=first;//two steps forward
+        }
+        return temp.next;
+    }
+    public static void print(Node head){
+        Node temp=head;
+        while(temp!=null){
+            System.out.print(temp.taskId+" ");
+            temp=temp.next;
+        }
+        
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int N=sc.nextInt();
+        Node head=null,tail=null;
+        //Node build up 
+        for(int i=0;i<N;i++)
+        {
+            int taskId=sc.nextInt();
+            Node newNode=new Node(taskId);
+            if(head==null){
+                head=newNode;
+                tail=newNode;
+            }
+            else{
+                tail.next=newNode;
+                tail=newNode;
+            }
+        }//end of for loop
+        //swap pairs method
+        head=swapPairs(head);
+        print(head);
+        
+    }
+}
+        
