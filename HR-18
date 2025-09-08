@@ -1,0 +1,61 @@
+import java.util.*;
+class Node{
+    int prodId;
+    Node next;
+    Node(int prodId){
+        this.prodId=prodId;
+        this.next=null;
+    }
+}
+public class Solution{
+    static Node removeDuplicate(Node head){
+        Node current = head;
+        while (current!=null)
+        {
+            Node prev  =current;//pointer 
+            Node temp = current.next;
+            while(temp!=null){
+            if(temp.prodId==current.prodId){
+                prev.next=temp.next;
+            }
+            else{
+                prev=temp;
+            }
+            temp=temp.next;
+            }//end of temp while
+            current=current.next;
+        }
+    
+        return head;
+    }//end of current while
+    
+    //end of remove duplicate
+    static void print(Node head){
+        Node temp=head;
+        while(temp!=null){
+            System.out.print(temp.prodId+" ");
+            temp=temp.next;
+        }
+    }
+    public static void main(String[] args){
+        Scanner s=new Scanner (System.in);
+        Node head= null,tail=null;
+        int N =s.nextInt();
+        for(int i=0;i<N;i++){
+            int prodId=s.nextInt();
+            Node newNode = new Node(prodId);
+            if(head==null)
+            {
+                head=newNode;
+                tail=newNode;
+            }
+            else{
+                tail.next=newNode;
+                tail=newNode;
+            }
+            
+        }//end of loop
+        Node result=removeDuplicate(head);
+        print(result);
+    }
+}
