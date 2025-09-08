@@ -1,0 +1,100 @@
+import java.util.Scanner;
+
+// Node class for Linked List
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+// Stack class using Linked List
+class Stack {
+    Node top = null;
+    int size = 0;
+    int MAX = 100;   // maximum 100 containers
+
+    // Push operation
+    void push(int x) {
+        if (size == MAX) {
+            System.out.println("Stack Overflow");
+            return;
+        }
+        Node newNode = new Node(x);
+        newNode.next = top;
+        top = newNode;
+        size++;
+    }
+
+    // Pop operation
+    void pop() {
+        if (top == null) {
+            System.out.println("Stack Underflow");
+        } else {
+            top = top.next;
+            size--;
+        }
+    }
+
+    // Top operation
+    void top() {
+        if (top == null) {
+            System.out.println("Stack Underflow");
+        } else {
+            System.out.println(top.data);
+        }
+    }
+
+    // IsEmpty operation
+    void isEmpty() {
+        if (top == null) {
+            System.out.println("true");
+        } else {
+            System.out.println("false");
+        }
+    }
+
+    // Size operation
+    void printSize() {
+        System.out.println(size);
+    }
+}
+
+// Main class
+public class BaggageHandlingSystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Stack stack = new Stack();
+
+        int N = sc.nextInt(); 
+        sc.nextLine(); // skip newline
+
+        for (int i = 0; i < N; i++) {
+            String command = sc.nextLine();
+            String[] parts = command.split(" ");  // split input
+
+            switch (parts[0]) {
+                case "Push":
+                    int value = Integer.parseInt(parts[1]);
+                    stack.push(value);
+                    break;
+                case "Pop":
+                    stack.pop();
+                    break;
+                case "Top":
+                    stack.top();
+                    break;
+                case "IsEmpty":
+                    stack.isEmpty();
+                    break;
+                case "Size":
+                    stack.printSize();
+                    break;
+            }
+        }
+        sc.close();
+    }
+}
