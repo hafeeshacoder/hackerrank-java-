@@ -1,0 +1,75 @@
+import java.util.*;
+class Node{
+    String bookName;
+    Node next;
+    Node(String bookName){
+        this.bookName=bookName;
+        this.next=null;
+    }
+}
+class BookStack{
+    public Node top;
+    public int size;
+    BookStack(){
+         this.top=null;
+        this.size=0;
+    }
+    public void push(String bookName){
+        Node newNode = new Node(bookName);
+        newNode.next=top;
+        top=newNode;
+        size++;
+    }//end of push
+    public void pop(){
+         if(isEmpty()){
+             System.out.println("Stack Underflow");
+         }
+         else{
+             top=top.next;
+             size--;
+         }
+    }//end of pop
+    public void top(){
+        if(isEmpty()){
+            System.out.println("Stack Underflow");
+         }
+         else{
+             System.out.println(top.bookName);
+         }
+    }//end of top
+    public boolean isEmpty(){
+    return top==null;    
+    }//end of isempty
+    public int size(){
+        return size;
+    }//end of size
+}//end of class book
+public class StackLink{
+    public static void main(String[] args){
+        Scanner s=new Scanner (System.in);
+        int N=s.nextInt();//to get the no .of operations
+        s.nextLine();
+        BookStack bs=new BookStack();
+        for(int i=0;i<N;i++){
+        String operation = s.nextLine();
+        
+        if(operation.startsWith("Push")){
+            String bookName = operation.substring(5);
+            bs.push(bookName);
+        }
+        else if(operation.equals("Pop")){
+            bs.pop();
+
+        }
+        else if(operation.equals("Top")){
+            bs.top();
+        }
+        else if(operation.equals("IsEmpty")){
+            System.out.println(bs.isEmpty() ? "true" : "false");
+        }
+        else if(operation.equals("Size")){
+            System.out.println(bs.size());
+        }
+        }
+    }
+}
