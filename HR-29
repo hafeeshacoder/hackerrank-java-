@@ -1,0 +1,43 @@
+import java.util.*;
+public class Bracket{
+    private static boolean isRedundant(String expression){
+        Stack<Character> st = new Stack<>();
+        for(char c:expression.toCharArray()){
+            if(c!=')'){//if not a closin bracket
+                st.push(c);
+            }//end of if
+            else{
+                boolean opFound = false;
+                while(!st.isEmpty()&& st.peek()!='('){
+                    char top=st.pop();
+                    if(top=='+'|| top=='-'||top=='*'||top=='/'){
+                        opFound=true;
+                    }//end of if
+                }//end of while
+                if(!st.isEmpty()){//pop until '('
+                    st.pop();
+                }//end if
+                if (!opFound){
+                    return true;
+                }//enf of elseif
+                
+            }//end of else
+        }//enf of for
+        return false;
+    }//end of methods
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n=sc.nextInt();//get the total no of exression 
+        sc.nextLine();
+        for(int i =0;i<n;i++){
+            String expression = sc.nextLine();
+            if(isRedundant(expression)){
+                System.out.println("Yes");
+                
+            }
+            else{
+                System.out.println("No"); 
+            }
+        }
+    }
+}
