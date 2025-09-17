@@ -1,0 +1,49 @@
+import java.util.*;
+
+public class PostfixEvaluator {
+
+    // Function to evaluate a postfix expression
+    public static int evaluatePostfix(String expression) {
+        Stack<Integer> stack = new Stack<>();
+        String[] tokens = expression.split(" ");
+
+        for (String token : tokens) {
+            // If token is an operand, push it onto the stack
+            if (token.matches("\\d+")) {
+                stack.push(Integer.parseInt(token));
+            } 
+            // Otherwise it's an operator
+            else {
+                int b = stack.pop();  // second operand
+                int a = stack.pop();  // first operand
+
+                switch (token) {
+                    case "+":
+                        stack.push(a + b);
+                        break;
+                    case "-":
+                        stack.push(a - b);
+                        break;
+                    case "*":
+                        stack.push(a * b);
+                        break;
+                    case "/":
+                        stack.push(a / b); // integer division
+                        break;
+                    default:
+                        
+                }
+            }
+        }
+        // Final result on the top of the stack
+        return stack.pop();
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String expression = sc.nextLine();
+        int result = evaluatePostfix(expression);
+        System.out.println(result);
+    }
+}
