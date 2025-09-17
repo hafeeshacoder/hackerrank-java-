@@ -1,0 +1,47 @@
+import java.util.*;
+
+public class CalculaterApp {
+    public static int calculateExpression(String ex) {
+        int length = ex.length();
+        int[] stack = new int[length]; // array as stack
+        int top = -1;
+        int num = 0;
+        char sign = '+';
+
+        for (int i = 0; i < length; i++) {
+            char c = ex.charAt(i);
+
+            if (Character.isDigit(c)) {
+                num = num * 10 + (c - '0');
+            }
+
+            // Process when non-digit OR last character
+            if ((!Character.isDigit(c) && c != ' ') || i == length - 1) {
+                if (sign == '+') {
+                    stack[++top] = num;
+                } else if (sign == '-') {
+                    stack[++top] = -num;
+                } else if (sign == '*') {
+                    stack[top] = stack[top] * num;
+                } else if (sign == '/') {
+                    stack[top] = stack[top] / num;
+                }
+                num = 0;
+                sign = c;
+            }
+        }
+
+        int result = 0;
+        for (int i = 0; i <= top; i++) {
+            result += stack[i];
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String expression = sc.nextLine();
+        int result = calculateExpression(expression);
+        System.out.println(result);
+    }
+}
