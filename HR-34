@@ -1,0 +1,87 @@
+import java.util.Scanner;
+
+class Node {
+    String ticket;
+    Node next;
+
+    Node(String ticket) {
+        this.ticket = ticket;
+        this.next = null;
+    }
+}
+
+class TicketQueue {
+    private Node front, rear;
+
+    public TicketQueue() {
+        this.front = this.rear = null;
+    }
+
+    // ENQUEUE operation
+    public void enqueue(String ticket) {
+        Node newNode = new Node(ticket);
+        if (rear == null) {
+            front = rear = newNode;
+        } else {
+            rear.next = newNode;
+            rear = newNode;
+        }
+    }
+
+    // DEQUEUE operation
+    public void dequeue() {
+        if (front == null) {
+            System.out.println("Queue is empty.");
+            return;
+        }
+        System.out.println("Processed Ticket: " + front.ticket);
+        front = front.next;
+
+        if (front == null) { // queue became empty
+            rear = null;
+        }
+    }
+
+    // DISPLAY operation
+    public void display() {
+        if (front == null) {
+            System.out.println("Queue is empty.");
+            return;
+        }
+        System.out.print("Current Queue: ");
+        Node temp = front;
+        while (temp != null) {
+            System.out.print(temp.ticket + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+}
+
+public class SupportTicketSystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        TicketQueue queue = new TicketQueue();
+
+        int operations = Integer.parseInt(sc.nextLine().trim());
+        for (int i = 0; i < operations; i++) {
+            String line = sc.nextLine().trim();
+            String[] parts = line.split(" ", 2);
+
+            if (parts[0].equalsIgnoreCase("ENQUEUE")) {
+                if (parts.length > 1) {
+                    queue.enqueue(parts[1]);
+                } else {
+                    System.out.println("Invalid command.");
+                }
+            } else if (parts[0].equalsIgnoreCase("DEQUEUE")) {
+                queue.dequeue();
+            } else if (parts[0].equalsIgnoreCase("DISPLAY")) {
+                queue.display();
+            } else {
+                System.out.println("Invalid command.");
+            }
+        }
+        sc.close();
+    }
+}
