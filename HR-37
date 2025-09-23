@@ -1,0 +1,102 @@
+import java.io.*;
+import java.util.*;
+
+class CustomerStack   //maintain all the stack and order
+{
+   Stack<Integer> s1;
+   Stack<Integer> s2;
+   
+    CustomerStack(){
+       s1=new Stack<>();
+       s2=new Stack<>();
+   } //constructor
+    
+   void push(int order)
+   {
+       s1.push(order);
+       System.out.println("Order added: "+order);
+   }//push
+    
+   void pop()
+   {
+       copyStacks();
+       if(!s2.isEmpty())
+       {
+           int order=s2.pop();
+           System.out.println("Order processed: "+order);
+       }
+       else
+       {
+           System.out.println("No orders to process");
+       }
+   } //pop
+    
+    void peek(){
+        copyStacks();
+        if(!s2.isEmpty())
+        {
+           
+            System.out.println("Next order: "+s2.peek());
+        }
+        else{
+            System.out.println("No orders in queue");
+        }
+    } //pop
+    
+    
+    void empty()
+    {
+        boolean isEmpty=s1.isEmpty() && s2.isEmpty();
+        System.out.println("Is queue empty: "+isEmpty);
+        
+    }//empty
+    
+    
+     void copyStacks() {
+        if (s2.isEmpty()) {
+            while (!s1.isEmpty()) {
+                s2.push(s1.pop());
+            }
+        }
+    }
+    
+    
+    
+}//end of class
+
+public class Solution {
+    
+    
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int operations=Integer.parseInt(sc.nextLine());
+        
+        CustomerStack cs=new CustomerStack();  //main method
+        for(int i=0;i<operations;i++)
+        {
+            String[] input=sc.nextLine().split("\\s+");
+            String op =input[0];
+            
+            switch(op)
+            {
+                case "push":
+                    int order=Integer.parseInt(input[1]);
+                    cs.push(order);
+                    break;
+                case "pop":
+                    cs.pop();
+                    break;
+                case "peek":
+                    cs.peek();
+                    break;
+                case "empty":
+                    cs.empty();
+                    break;
+                default:
+                    System.out.println("Invalid operation");
+            }
+        }
+
+    }
+}
