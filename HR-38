@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class ReverseQueue {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Read number of customers
+        int N = sc.nextInt();
+
+        // Read ticket numbers into a queue
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < N; i++) {
+            queue.add(sc.nextInt());
+        }
+
+        // Use a stack to reverse the queue
+        Stack<Integer> stack = new Stack<>();
+        while (!queue.isEmpty()) {
+            stack.push(queue.poll());
+        }
+
+        // Print the reversed order
+        while (!stack.isEmpty()) {
+            System.out.print(stack.pop() + " ");
+        }
+    }
+}
