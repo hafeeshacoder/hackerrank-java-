@@ -1,0 +1,76 @@
+import java.io.*;
+import java.util.*;
+
+
+public class SlidingWindow {
+    static class QueueWindow{
+        int[] Queue;
+        int front,rear,size,capacity;
+        QueueWindow(int capacity){
+            this.capacity =capacity;
+            Queue = new int[capacity];
+            front = 0;
+            rear = -1;
+            size = 0;
+        }
+        void addRear(int value){
+            rear=(rear+1)%capacity;//0%5
+            Queue[rear]=value;
+            size++;
+        }
+        void removeRear(){
+            rear=(rear-1)%capacity;//update
+            size--;
+        }
+        void removeFront(){
+           front=front+1%capacity;
+            size--;
+        }
+        int getFront(){
+            return Queue[front];
+        }
+        int getRear(){
+            return Queue[rear];
+        }
+        boolean isEmpty(){
+            return size ==0 ;
+        }
+    }
+    public static  List<Integer> getMaximum( int[] queue,int k){
+        int length = queue.length;
+        List<Integer> result =new ArrayList<>();
+        QueueWindow qw = new QueueWindow(length);
+        for(int i=0;i<length;i++){
+            //indices will be removed -- choses the first 3 elements
+           if(!qw.isEmpty()&& qw.getFront() <= i-k){
+                qw.removeFront();   
+           }
+            //find the max
+            while(!qw.isEmpty()&& queue[qw.getRear()]<=queue[i]){
+                qw.removeRear();
+            }
+            qw.addRear(i);//inser the max
+            if(i>=k-1){
+                result.add(queue[qw.getFront()]);
+            }
+        }
+        return result;
+        
+   }
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int N =sc.nextInt();
+        int[] queue=new int[N];
+        for(int i =0 ;i<N;i++){
+            queue[i]=sc.nextInt();
+        }
+        int k = sc.nextInt();
+        List<Integer> maxQueue = getMaximum(queue,k);
+        for (int m:maxQueue){//display the result 
+            System.out.print(m+" ");
+        }
+        
+    }
+
+}
