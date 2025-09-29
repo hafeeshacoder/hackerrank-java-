@@ -1,0 +1,85 @@
+import java.io.*;
+import java.util.*;
+
+public class ReverseQueueK {
+    
+    // Custom queue class using LinkedList internally
+    static class MyQueue {
+        LinkedList<Integer> list;
+        
+        MyQueue() {
+            list = new LinkedList<>();
+        }
+        
+        void addRear(int value) {
+            list.addLast(value);
+        }
+        
+        int removeFront() {
+            return list.removeFirst();
+        }
+        
+        int getFront() {
+            return list.getFirst();
+        }
+        
+        int size() {
+            return list.size();
+        }
+        
+        boolean isEmpty() {
+            return list.isEmpty();
+        }
+        
+        LinkedList<Integer> getList() {
+            return list;
+        }
+    }
+    
+    // Function to reverse first K elements and return as list
+    public static List<Integer> reverseFirstKQueue(List<Integer> input, int K) {
+        MyQueue queue = new MyQueue();
+        for (int val : input) {
+            queue.addRear(val);
+        }
+        
+        // Step 1: Remove first K elements into temp list
+        List<Integer> temp = new ArrayList<>();
+        for (int i = 0; i < K; i++) {
+            temp.add(queue.removeFront());
+        }
+        
+        // Step 2: Add them back in reverse order
+        for (int i = K - 1; i >= 0; i--) {
+            queue.addRear(temp.get(i));
+        }
+        
+        // Step 3: Move remaining (N-K) elements to back to preserve order
+        int remaining = queue.size() - K;
+        for (int i = 0; i < remaining; i++) {
+            queue.addRear(queue.removeFront());
+        }
+        
+        return queue.getList();
+    }
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // Read input
+        int N = sc.nextInt();
+        List<Integer> input = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            input.add(sc.nextInt());
+        }
+        int K = sc.nextInt();
+        
+        // Process and get result
+        List<Integer> result = reverseFirstKQueue(input, K);
+        
+        // Print output
+        for (int val : result) {
+            System.out.print(val + " ");
+        }
+    }
+}
