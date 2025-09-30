@@ -1,0 +1,51 @@
+import java.io.*;
+import java.util.*;
+
+class Node{
+    int val;
+    Node left;
+    Node right;
+    Node( int val){
+        this.val=val;
+        this.left=left;
+        this.right=right;
+    }
+}
+public class TournamentDepth{
+    static Node buildTree(String[] values){
+        if(values.length == 0|| values[0].equals("null")){
+            return null;
+        }
+        Node root = new Node(Integer.parseInt(values[0]));
+        Queue<Node> q=new LinkedList<>();
+        q.add(root);
+        int i=1;
+        while(!q.isEmpty() && i<values.length)
+        {
+            Node curr=q.poll();
+        if(i<values.length && !values[i].equals("null")){
+            curr.left=new Node(Integer.parseInt(values[i]));
+            q.add(curr.left);
+        }
+            i++;
+        if(i<values.length && !values[i].equals("null")){
+            curr.right=new Node(Integer.parseInt(values[i]));
+            q.add(curr.right);
+        }
+        i++;
+        }
+        return root;
+    }
+    static int maxDepth(Node root){
+        if(root==null) return 0 ;
+        return 1 + Math.max(maxDepth(root.left),maxDepth(root.right));
+    }
+    
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = Integer.parseInt(sc.nextLine().trim());
+        String[] values = sc.nextLine().split(" ");
+        Node root = buildTree(values);
+        System.out.println(maxDepth(root));
+    }
+} 
