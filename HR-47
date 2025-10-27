@@ -1,0 +1,62 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+
+public class LeftLeafSumBasic {
+
+    // Function to sum left leaf nodes
+    static int sumLeftLeaves(TreeNode node, boolean isLeft) {
+        if (node == null) return 0;
+
+        // If node is a leaf and is a left child
+        if (node.left == null && node.right == null && isLeft) {
+            return node.val;
+        }
+
+        return sumLeftLeaves(node.left, true) + sumLeftLeaves(node.right, false);
+    }
+
+    // Function to build tree from level-order input
+    static TreeNode buildTree(String[] nodes) {
+        if (nodes.length == 0 || nodes[0].equals("null")) return null;
+
+        TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        int i = 1;
+        while (i < nodes.length) {
+            TreeNode current = queue.poll();
+
+            if (!nodes[i].equals("null")) {
+                current.left = new TreeNode(Integer.parseInt(nodes[i]));
+                queue.add(current.left);
+            }
+            i++;
+            if (i >= nodes.length) break;
+
+            if (!nodes[i].equals("null")) {
+                current.right = new TreeNode(Integer.parseInt(nodes[i]));
+                queue.add(current.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = Integer.parseInt(sc.nextLine());
+        String[] nodes = sc.nextLine().split(" ");
+
+        TreeNode root = buildTree(nodes);
+        int sum = sumLeftLeaves(root, false);
+        System.out.println(sum);
+    }
+}
