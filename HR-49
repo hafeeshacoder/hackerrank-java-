@@ -1,0 +1,94 @@
+import java.io.*;
+import java.util.*;
+
+// Node class representing each member tree node
+class Node {
+    int val;
+    Node left, right;
+
+    // Constructor to initialize node value
+    Node(int val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Read total number of members (nodes) in the hierarchy
+        int n = sc.nextInt();
+        sc.nextLine(); // consume newline after integer input
+
+        // Read team member IDs in level order (use "null" for missing nodes)
+        String[] arr = sc.nextLine().split(" ");
+
+        // If no valid data or root is null, stop execution
+        if (n == 0 || arr.length == 0 || arr[0].equals("null")) {
+            return;
+        }
+
+        // Create the root node using the first value
+        Node root = new Node(Integer.parseInt(arr[0]));
+
+        // Queue used to build the binary tree level by level
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        int i = 1; // index tracker for input array
+
+        // Build the tree using level order traversal
+        while (!queue.isEmpty() && i < arr.length) {
+            Node curr = queue.poll(); // take current node from queue
+
+            // Process left child
+            if (i < arr.length && !arr[i].equals("null")) {
+                curr.left = new Node(Integer.parseInt(arr[i]));
+                queue.add(curr.left); // add left child to queue
+            }
+            i++; // move to next index
+
+            // Process right child
+            if (i < arr.length && !arr[i].equals("null")) {
+                curr.right = new Node(Integer.parseInt(arr[i]));
+                queue.add(curr.right); // add right child to queue
+            }
+            i++; // move to next index
+        }
+
+        // Get the list of right-side view nodes
+        List<Integer> rightView = getRightView(root);
+
+        // Print right-side view (space-separated)
+        for (int val : rightView) {
+            System.out.print(val + " ");
+        }
+    }
+
+    // Method to compute right-side view of a binary tree
+    public static List<Integer> getRightView(Node root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result; // handle empty tree
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+
+        // Level order traversal
+        while (!queue.isEmpty()) {
+            int size = queue.size(); // number of nodes in current level
+            for (int i = 0; i < size; i++) {
+                Node curr = queue.poll();
+
+                // Add last node of each level (visible from right side)
+                if (i == size - 1) {
+                    result.add(curr.val);
+                }
+
+                // Add left and right children to queue
+                if (curr.left != null) queue.add(curr.left);
+                if (curr.right != null) queue.add(curr.right);
+            }
+        }
+        return result;
+    }
+}
