@@ -1,0 +1,80 @@
+import java.util.*;
+
+class Node {
+    int val;
+    Node left, right;
+
+    Node(int val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt(); // number of nodes
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Node root = buildTree(arr); // build tree
+        int leftmost = findLeftmostInLastRow(root); // find answer
+        System.out.println(leftmost);
+    }
+
+    // build tree using level order
+    static Node buildTree(int[] arr) {
+        if (arr.length == 0) {
+            return null;
+        }
+
+        Node root = new Node(arr[0]);
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        int i = 1;
+
+        while (!q.isEmpty() && i < arr.length) {
+            Node curr = q.poll();
+
+            if (i < arr.length) {
+                curr.left = new Node(arr[i++]);
+                q.add(curr.left);
+            }
+            if (i < arr.length) {
+                curr.right = new Node(arr[i++]);
+                q.add(curr.right);
+            }
+        }
+        return root;
+    }
+
+    // find leftmost value in last row
+    static int findLeftmostInLastRow(Node root) {
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        int leftmost = root.val;
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            leftmost = q.peek().val; // first node of current level
+
+            for (int i = 0; i < size; i++) {
+                Node curr = q.poll();
+
+                // using your preferred if-style
+                if (curr.left != null) {
+                    q.add(curr.left);
+                }
+                if (curr.right != null) {
+                    q.add(curr.right);
+                }
+            }
+        }
+
+        return leftmost; // last updated = leftmost of last level
+    }
+}
