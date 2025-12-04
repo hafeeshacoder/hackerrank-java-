@@ -1,0 +1,79 @@
+import java.util.*;
+
+class Node {
+    int data;
+    Node left, right;
+
+    Node(int data) {
+        this.data = data;
+        left = right = null;
+    }
+}
+
+public class Main {
+
+    // Insert into BST
+    static Node insert(Node root, int data) {
+        if (root == null)
+            return new Node(data);
+
+        if (data < root.data)
+            root.left = insert(root.left, data);
+        else
+            root.right = insert(root.right, data);
+
+        return root;
+    }
+
+    // Search in BST
+    static Node search(Node root, int key) {
+        if (root == null || root.data == key)
+            return root;
+
+        if (key < root.data)
+            return search(root.left, key);
+        else
+            return search(root.right, key);
+    }
+
+    // Inorder traversal
+    static void inorder(Node root) {
+        if (root == null)
+            return;
+
+        inorder(root.left);
+        System.out.print(root.data + " ");
+        inorder(root.right);
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // Read number of books
+        int n = sc.nextInt();
+
+        Node root = null;
+
+        // Read book IDs and insert into BST
+        for (int i = 0; i < n; i++) {
+            root = insert(root, sc.nextInt());
+        }
+
+        // Read Book ID to search
+        int val = sc.nextInt();
+
+        // Search for book
+        Node result = search(root, val);
+
+        // Output result
+        if (result != null) {
+            System.out.println("Book found! Subtree rooted at " + val + ":");
+            inorder(result);
+        } else {
+            System.out.println("Book not found");
+        }
+
+        sc.close();
+    }
+}
