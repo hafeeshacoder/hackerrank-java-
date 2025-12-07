@@ -1,0 +1,84 @@
+import java.util.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) {
+        this.val = val;
+        left = right = null;
+    }
+}
+
+public class Solution {
+
+    // Function to find middle of linked list between head and tail
+    public static ListNode findMiddle(ListNode head, ListNode tail) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != tail && fast.next != tail) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;  // middle node
+    }
+
+    // Convert sorted list to balanced BST
+    public static TreeNode sortedListToBST(ListNode head, ListNode tail) {
+        if (head == tail)
+            return null;
+
+        ListNode mid = findMiddle(head, tail);
+        TreeNode root = new TreeNode(mid.val);
+
+        root.left = sortedListToBST(head, mid);        // left subtree
+        root.right = sortedListToBST(mid.next, tail);  // right subtree
+
+        return root;
+    }
+
+    // Preorder Traversal
+    public static void preorder(TreeNode root) {
+        if (root == null) return;
+
+        System.out.print(root.val + " ");
+        preorder(root.left);
+        preorder(root.right);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        // Build Linked List
+        ListNode head = null;
+        ListNode temp = null;
+
+        for (int i = 0; i < n; i++) {
+            int x = sc.nextInt();
+            if (head == null) {
+                head = new ListNode(x);
+                temp = head;
+            } else {
+                temp.next = new ListNode(x);
+                temp = temp.next;
+            }
+        }
+
+        // Convert to BST
+        TreeNode root = sortedListToBST(head, null);
+
+        // Print Preorder
+        preorder(root);
+    }
+}
