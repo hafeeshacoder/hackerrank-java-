@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+class Node{
+    int value;
+    Node left;
+    Node right;
+    Node(int value){
+        this.value=value;
+        this.left=null;
+        this.right=null;
+    }
+}
+
+public class Solution {
+    static Node insert(Node root,int value){
+        if(root==null){
+            return new Node(value);
+        }
+        if(value < root.value){               
+            root.left = insert(root.left,value);
+        }
+        else{
+            root.right = insert(root.right,value);   
+        }
+        return root;
+    }
+    
+    static int calculateLeaf(Node root){
+        if(root == null)
+            return 0;
+        if(root.left==null && root.right == null)
+            return 1;
+        return calculateLeaf(root.left)+ calculateLeaf(root.right);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        Node root=null;
+        int value;                           
+        for(int i=0;i<n;i++){
+            value=sc.nextInt();
+            root=insert(root,value);
+        }
+        int leafCount = calculateLeaf(root);
+        System.out.print(leafCount);
+    }
+}
