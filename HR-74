@@ -1,0 +1,33 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    static void findDFS(int start, ArrayList<Integer>[] adjList,boolean[] visited){
+        visited[start]=true;//[true,false,false,false,false]
+        System.out.print((start)+" ");
+        for(int city:adjList[start]){
+            if(!visited[city]){
+                findDFS(city,adjList,visited);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();//nodes
+        int m=sc.nextInt();//edges
+        ArrayList<Integer>[] adjList=new ArrayList[n+1];
+        for (int i=0;i<=n;i++){
+            adjList[i]=new ArrayList<>();
+        }
+        for(int i=0;i<m;i++){
+            int u=sc.nextInt();
+            int v=sc.nextInt();
+            adjList[u].add(v);
+            adjList[v].add(u);
+        }
+        int start =sc.nextInt();
+        boolean[] visited=new boolean[n+1];//[false 5 times....]
+        findDFS(start,adjList,visited);
+    }
+}
