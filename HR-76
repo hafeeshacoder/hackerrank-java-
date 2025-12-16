@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+     static void dfs(int city,ArrayList<ArrayList<Integer>> adjList,boolean[] visited){
+         visited[city]=true;
+         for(int c:adjList.get(city)){
+             if(!visited[c]){
+                 dfs(c,adjList,visited);
+             }
+         }
+     }
+    static boolean allVisited(boolean[] visited){
+        for(boolean vi:visited){
+            if(!vi){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static void main(String[] args) {
+       Scanner sc =new Scanner(System.in);
+        
+           int n =sc.nextInt();
+           int m = sc.nextInt();
+            ArrayList<ArrayList<Integer>> adjList=new ArrayList<>();
+            ArrayList<ArrayList<Integer>> revList=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            adjList.add(new ArrayList<>());
+            revList.add(new ArrayList<>());
+        }
+        for(int i=0;i<m;i++){
+            int u = sc.nextInt();
+            int v =sc.nextInt();
+            adjList.get(u-1).add(v-1);
+            revList.get(v-1).add(u-1);
+        }
+        boolean[] visited = new boolean[n];
+        dfs(0,adjList,visited);
+        if(!allVisited(visited)){
+            System.out.print("The road network is not connected.");
+            return;
+        }
+        Arrays.fill(visited,false);
+        dfs(0,revList,visited);
+        if(!allVisited(visited)){
+            System.out.print("The road network is not connected.");
+            return;
+        }
+        else
+        {
+         System.out.print("The road network is connected.");   
+        }
+        
+    }
+}
