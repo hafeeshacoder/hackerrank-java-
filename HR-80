@@ -1,0 +1,54 @@
+import java.util.*;
+
+public class Solution {
+    static void dfs(int node, ArrayList<Integer>[] adj, boolean[] visited) {
+        visited[node] = true;  //1=true
+        for (int nbr : adj[node]) { //nbr:adj[1]--2,3
+            if (!visited[nbr]) {
+                dfs(nbr, adj, visited);//2    3
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();  //4   1 2 3 4  5
+        int m = sc.nextInt();   //3  5
+        int k = sc.nextInt();   //2  3
+/*
+4 3 2
+1 2
+2 3
+1 3
+*/
+        ArrayList<Integer>[] adj = new ArrayList[n + 1];
+        for (int i = 1; i <= n; i++) {
+            adj[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();  //1   2     1     
+            int v = sc.nextInt();  //2    3     3     
+            adj[u].add(v); //1-2   2-3   1-3         
+            adj[v].add(u);//2-1    3-2    3-1         
+        } 
+
+        boolean[] visited = new boolean[n + 1];  // all false initially
+        int components = 0;
+
+        for (int i = 1; i <= n; i++) {
+            if (!visited[i]) {  //i=1 not visited
+                components++; //`1
+                dfs(i, adj, visited);  //1,2,3
+            }
+        }
+
+        if (components > k) {
+            System.out.println(-1);
+        } else {
+            int maxRemoved = m - (n - k);  //3 - (4-2) =1
+            System.out.println(maxRemoved); //1
+        }
+    }
+}
