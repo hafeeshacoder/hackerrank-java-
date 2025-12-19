@@ -1,0 +1,65 @@
+import java.util.*;
+
+public class JourneyToMoon {
+
+    static ArrayList<Integer>[] graph;
+    static boolean[] visited;
+
+    // DFS to calculate size of connected component
+    static int dfs(int node) {
+        visited[node] = true;
+        int count = 1;
+
+        for (int neighbor : graph[node]) {
+            if (!visited[neighbor]) {
+                count += dfs(neighbor);
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt(); // number of astronauts
+        int p = sc.nextInt(); // number of pairs
+
+        graph = new ArrayList[n];
+        visited = new boolean[n];
+
+        // Initialize adjacency list
+        for (int i = 0; i < n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        // Read astronaut pairs
+        for (int i = 0; i < p; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph[u].add(v);
+            graph[v].add(u);
+        }
+
+        ArrayList<Integer> componentSizes = new ArrayList<>();
+
+        // Find connected components
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                componentSizes.add(dfs(i));
+            }
+        }
+
+        // Calculate valid pairs
+        long result = 0;
+        long sum = 0;
+
+        for (int size : componentSizes) {
+            result += sum * size;
+            sum += size;
+        }
+
+        System.out.println(result);
+        sc.close();
+    }
+}
