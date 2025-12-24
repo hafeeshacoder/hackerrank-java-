@@ -1,0 +1,71 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        
+        Scanner sc= new Scanner(System.in);
+        final  int SIZE =100;
+        int[] id=new int[SIZE];
+        int[] marks=new int[SIZE];
+        Arrays.fill(id,-1);  //make id list is empty 
+        
+        int n=sc.nextInt();  //no of students
+        for(int i=0;i<n;i++)
+        {
+            int stuid=sc.nextInt();
+            int stumarks=sc.nextInt();
+            
+            int index=stuid % SIZE ;  //101%100 =1
+            
+            boolean placed=false;
+            
+            //linear probing
+            for(int probe=0;probe < SIZE ; probe++)
+            {
+                int newindex=(index+probe) % SIZE ; //if index is not free move to the next index //(1+0)%100 =1 (1+1)%100=2
+                if(id[newindex]==-1 || id[newindex]==stuid)
+                {
+                    id[newindex]= stuid;
+                    marks[newindex]=stumarks;
+                    placed=true;
+                    break;
+                }
+                
+            }//for linear probing loop
+        }//for 
+
+          int queries=sc.nextInt();  //queris for searching how many search ideas
+            
+            for(int i=0;i<queries;i++)
+            {
+                int searchid=sc.nextInt();
+                int index= searchid% SIZE;
+                
+                boolean found=false;
+                
+                for(int probe = 0; probe < SIZE ; probe++)
+                {
+                    int newindex= (index+probe)% SIZE;
+                    
+                    if(id[newindex]==-1)
+                    {
+                        break;
+                    }
+                    
+                    if(id[newindex]==searchid)
+                    {
+                        System.out.println(marks[newindex]);
+                        found=true;
+                        break;
+                    }
+                }//probee
+                if(!found)
+                 {
+                    System.out.println("Student not found");
+                }
+            }//for loop
+       
+    }
+}
