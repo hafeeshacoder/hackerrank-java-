@@ -1,0 +1,32 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        String str1= sc.next();//ABC
+        String str2=sc.next();//DEF
+        String map1="";
+        String map2="";
+        for(int i=0;i<str1.length();i++ ){
+            char c1 =str1.charAt(i);//(0)=A|(1)=B|(2)=C
+            char c2 = str2.charAt(i);//(0)=D|(1)=E|(2)=F
+            if(map1.indexOf(c1)!=-1){//m1.index(A)!=-1
+              if(map2.charAt(map1.indexOf(c1))!=c2){
+                  System.out.println("No");
+                  return;
+              } 
+            }
+            else if(map2.indexOf(c2)!=-1){
+                System.out.println("No");
+                return;
+            }
+            else{
+                map1+=c1;//map 1=A|B|C
+                map2+=c2;//map 2=D|E|F
+            }
+            }
+        System.out.println("Yes");
+    }
+}
