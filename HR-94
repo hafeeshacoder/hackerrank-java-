@@ -1,0 +1,58 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution 
+{
+
+    public static void main(String[] args) 
+    {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int m=sc.nextInt();
+       HashMap<Integer,Integer>map = new HashMap<>();
+        for(int i=0;i<n;i++)
+        {
+            HashSet<Integer>set=new HashSet<>();
+            for(int j=0;j<m;j++)
+            {
+               int value=sc.nextInt();
+                set.add(value);
+                
+            }
+            for(int val:set)
+            {
+                if(!map.containsKey(val))
+                {
+                    map.put(val,1);
+                }
+                else
+                {
+                    map.put(val,map.get(val)+1);
+                }
+            }
+            
+        }
+        List<Integer>result=new ArrayList<>();
+      
+        for(int ch:map.keySet())
+        {
+            if(map.get(ch)==n)
+            {
+                result.add(ch);
+            }
+        }
+        if(result.isEmpty())
+        {
+            System.out.println("No common elements");
+        }
+        else
+        {
+          Collections.sort(result,Collections.reverseOrder());  
+        for(int val:result)
+        {
+            System.out.print(val+" ");
+        }
+        
+    }
+    }
+}
