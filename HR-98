@@ -1,0 +1,33 @@
+
+import java.io.*; 
+import java.util.*; 
+ 
+public class Solution { 
+/* 
+[25, 16, 9, 4, 1] 
+*/ 
+    public static void main(String[] args) { 
+        Scanner sc=new Scanner(System.in); 
+        int n=sc.nextInt(); 
+        PriorityQueue<Integer> pq=new PriorityQueue<>(Collections.reverseOrder()); 
+//reverseOrder- desencending order 
+        for(int i=0;i<n;i++) 
+        { 
+            int choco=sc.nextInt(); 
+            pq.add(choco); //25,16,9,4,1 
+        } 
+        int k=sc.nextInt(); //3 
+        for(int i=0;i<k;i++) //0 1 2 
+        { 
+            int maxPile=pq.poll(); //25  //16  //9 
+            int remaining=(int)Math.sqrt(maxPile);  //sqrt(25)=5  //sqrt(16)=4  //sqrt(9)=3 
+            pq.add(remaining);//16,9,5,4,1   9,5,4,4,1  //5 4 4 3 1 
+        } 
+        int total=0; //0 
+        while(!pq.isEmpty()) 
+        { 
+            total+=pq.poll(); //0+5 =5  //5+4=9 //9+4=13  //13+3=16 //16+1=17 
+        } 
+        System.out.println(total);  //17 
+    }  
+}
